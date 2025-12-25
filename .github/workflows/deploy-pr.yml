@@ -6,7 +6,6 @@ on:
 
 env:
   GHCR_REGISTRY: ghcr.io
-  DOCKERHUB_REGISTRY: docker.io
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
@@ -42,41 +41,9 @@ jobs:
           tags: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:pr-${{ github.event.pull_request.number }}
           labels: ${{ steps.meta-ghcr.outputs.labels }}
 
-  build-and-push-dockerhub:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ env.DOCKERHUB_REGISTRY }}
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta-dockerhub
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.DOCKERHUB_REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: pr-${{ github.event.pull_request.number }}
-
-      - name: Build and push Docker image to Docker Hub
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: ${{ env.DOCKERHUB_REGISTRY }}/${{ env.IMAGE_NAME }}:pr-${{ github.event.pull_request.number }}
-          labels: ${{ steps.meta-dockerhub.outputs.labels }}
-
   comment-pr:
     runs-on: ubuntu-latest
-    needs: [build-and-push-ghcr, build-and-push-dockerhub]
+    needs: [build-and-push-ghcr]
     if: github.event_name == 'pull_request'
     permissions:
       pull-requests: write
@@ -86,13 +53,11 @@ jobs:
         with:
           script: |
             const ghcrImage = `${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}:pr-${{ github.event.pull_request.number }}`;
-            const dockerhubImage = `${{ env.DOCKERHUB_REGISTRY }}/${{ env.IMAGE_NAME }}:pr-${{ github.event.pull_request.number }}`;
             const comment_identifier = "";
             const comment = `
               🚀 Docker images built successfully! 
 
               - GHCR: \`${ghcrImage}\` 
-              - Docker Hub: \`${dockerhubImage}\` 
 
               ${comment_identifier}
             `;
