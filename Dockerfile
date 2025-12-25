@@ -1,18 +1,22 @@
-# Use a lightweight Python base image
-FROM python:3.9-slim
+# Use the official Playwright Python image
+FROM mcr.microsoft.com/playwright/python:v1.40.0-jammy
 
-# Set environment variables
+# Prevent Python from writing pyc files and buffering stdout
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Install dependencies
+# Install Python dependencies (requests)
+# Note: Playwright is already installed in the base image
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the application code
+# Ensure Chromium is installed
+RUN playwright install chromium
+
+# Copy the script
 COPY monitor.py .
 
-# Run the application
+# Run the script
 CMD ["python", "monitor.py"]
