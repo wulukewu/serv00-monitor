@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  serv00-monitor:
+    build: .
+    container_name: serv00-monitor
+    restart: unless-stopped
+    environment:
+      # Paste your Discord Webhook URL here
+      - DISCORD_WEBHOOK=https://discord.com/api/webhooks/xxxx/xxxx
+      # Check every 300 seconds (5 minutes)
+      - CHECK_INTERVAL=300
+      # Set Timezone to ensure log timestamps are correct
+      - TZ=Asia/Taipei
