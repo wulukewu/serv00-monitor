@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/wulukewu/serv00-monitor/compare/v1.0.0...v1.1.0) (2025-12-25)
+
+
+### Features
+
+* use playwright to load the homepage ([#4](https://github.com/wulukewu/serv00-monitor/issues/4)) ([0ff6960](https://github.com/wulukewu/serv00-monitor/commit/0ff6960038cd64cc35500b72045ef787b833da61))
+
 ## 1.0.0 (2025-12-25)
 
 
