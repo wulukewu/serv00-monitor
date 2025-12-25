@@ -65,7 +65,7 @@ You can use the provided workflows to run the monitor on a schedule. Make sure t
 ## Docker Registry
 
 Images are automatically built and pushed to **GitHub Container Registry (GHCR)**:
-- `ghcr.io/yourusername/serv00-monitor:latest`
+- `ghcr.io/wulukewu/serv00-monitor:latest`
 
 ## License
 
