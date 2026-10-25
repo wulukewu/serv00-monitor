@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/wulukewu/serv00-monitor/compare/v1.1.0...v1.1.1) (2026-10-25)
+
+
+### Bug Fixes
+
+* **ci:** pin supported runner and upgrade Python setup actions ([af271b6](https://github.com/wulukewu/serv00-monitor/commit/af271b6a945446d47e9730bc079fc95c66645111))
+
 ## [1.1.0](https://github.com/wulukewu/serv00-monitor/compare/v1.0.0...v1.1.0) (2025-12-25)
 
 
